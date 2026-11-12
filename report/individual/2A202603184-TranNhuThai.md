@@ -10,7 +10,7 @@ Dữ liệu: 12 ảnh người COCO val2017 (Lin et al., 2014) và 8 ảnh chân
 - MSSV:2A202603184
 - Email:sonhuongthai@gmail.com      
 - Link repository:https://github.com/TranNhuThai20194835/K5-L2A-Day4-TranNhuThai-2A202603184-KeypointPose.git
-- Phiên bản CVAT (Help → About):
+- Phiên bản CVAT (Help → About):2.74.1
 - Máy: hệ điều hành Window · RAM 8 GB · chạy CVAT chế độ đầy đủ 
 - Bộ ảnh (`src/exports/assignment.json` do `lab.py setup` tạo): có 
 - Giờ bắt đầu:17h00
