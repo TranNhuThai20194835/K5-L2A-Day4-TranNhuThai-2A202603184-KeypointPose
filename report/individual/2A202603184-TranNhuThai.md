@@ -20,7 +20,7 @@ Dữ liệu: 12 ảnh người COCO val2017 (Lin et al., 2014) và 8 ảnh chân
 
 | Label | Kiểu | Số điểm | Tên điểm đúng bảng của lab? | Đúng thứ tự? | Số cạnh |
 |---|---|---:|---|---|---:|
-| `person` |skeleton | 17 |có |có |18 |
+| `person` |skeleton | 17 |có |có |19 |
 | `face` |skeleton | 13 |có |có |13 |
 
 Mẫu `person` dựng theo người quay mặt về camera (các điểm `left_*` nằm bên phải khung mẫu)? Có
@@ -88,9 +88,9 @@ Tự kiểm tay trong file JSON:
 
 | File | Người / mặt kiểm (ảnh, thứ tự) | Số phần tử `keypoints` | Điểm `outside` ra `v = 0`, `occluded` ra `v = 1`? | `num_keypoints` khớp? |
 |---|---|---:|---|---|
-| `TranNhuThai_persons.zip` | 000000109010.jpg, người #1 | 51 | Có: left_ankle, right_ankle (outside) ra v = 0 | Khớp: __ |
-| `TranNhuThai_persons.zip` | 000000359340.jpg, người #1 | 51 | Có: right_wrist (outside) ra v = 0; điểm occluded ra v = 1 | Khớp: __ |
-| `TranNhuThai_faces.zip` | face_______, mặt #1 | 39 | Có: điểm outside ra v = 0, điểm occluded ra v = 1 | Khớp: __ |
+| `TranNhuThai_persons.zip` | 000000109010.jpg, người #1 | 51 | Có: left_ankle, right_ankle (outside) ra v = 0, ảnh cao 363 px nên cả hai nằm ngoài; left_ear và left_wrist (occluded) ra v = 1,  | Khớp: 15 |
+| `TranNhuThai_persons.zip` | 000000359340.jpg, người #1 | 51 | Có: right_wrist (outside) ra v = 0; điểm left_eye (occluded) ra v = 1 | Khớp: 14 |
+| `TranNhuThai_faces.zip` | face_469647.jpg, mặt #1 | 39 | Có: right_eye_outer (occluded) ra v = 1 | Khớp: 13 |
 
 Sau khi xuất, CVAT ghi `occluded` thành `v = 1` và `outside` thành `v = 0`. Tọa độ của điểm `outside` trong file là tọa độ cũ (không phải `0, 0`): CVAT 2.x xuất như vậy, điểm v = 0 vẫn bị bỏ qua khi huấn luyện và chấm.
 
@@ -150,10 +150,8 @@ Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 2. Một quy tắc bạn đề xuất thêm vào guideline (kèm ảnh ví dụ nếu có):
 
    Với mỗi điểm không nhìn thấy, hỏi theo thứ tự: 
-   (1) Điểm có nằm ngoài khung ảnh không? Nếu có, đánh Outside. 
-   (2) Nếu nằm trong khung nhưng bị che, đánh Occluded và đặt vị trí ước lượng hợp lý. Tuyệt đối không dùng Occluded cho điểm ngoài khung.
-   
-   Ảnh ví dụ đề xuất: 000000109010.jpg (cả hai người bị cắt ở mắt cá chân, bên cạnh là ví dụ điểm bị che trong khung của một ảnh khác để đối chiếu).
+   (1) Điểm có nằm ngoài khung ảnh không? Nếu có, đánh Outside (v = 0). 
+   (2) Nếu nằm trong khung nhưng bị che: đoán chắc được vị trí (từ dáng người, đối xứng) thì Occluded (v = 1); không đoán chắc thì Outside (v = 0). Không điền điểm đoán bừa chỉ để đủ 17 điểm.
 
 3. Nhãn của bạn đi vào model ở đâu? Chọn một lỗi bạn đã sửa và nói nó sẽ làm model học sai thế nào (heatmap, trọng số trong loss, hay bước lật ảnh):
 
